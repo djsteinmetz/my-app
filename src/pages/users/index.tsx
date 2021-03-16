@@ -8,6 +8,7 @@ import Paper from '@material-ui/core/Paper';
 import { NextPageContext } from 'next';
 import { IUser, IUserListProps } from '../../models/users.interface';
 import { useEffect, useState } from 'react';
+import Link from 'next/link'
 
 export default function AllUsers({ usersList }: IUserListProps) {
     const [users, setUsers] = useState(usersList);
@@ -24,6 +25,9 @@ export default function AllUsers({ usersList }: IUserListProps) {
 
     return (
         <div>
+            <Link as="/" href="/">
+                <a>Home</a>
+            </Link>
             <TableContainer component={Paper}>
                 <Table aria-label="simple table">
                     <TableHead>
@@ -34,7 +38,7 @@ export default function AllUsers({ usersList }: IUserListProps) {
                     </TableHead>
                     <TableBody>
                         {users?.map((row: IUser) => (
-                            <TableRow key={row.interopID}>
+                            <TableRow key={row.ID}>
                                 <TableCell component="th" scope="row">
                                     {row.FullName}
                                 </TableCell>

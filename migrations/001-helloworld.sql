@@ -3,7 +3,8 @@ CREATE TABLE Users (
     interopID INTEGER PRIMARY KEY AUTOINCREMENT,
     ID TEXT,
     FullName TEXT,
-    Email TEXT
+    Email TEXT,
+    Password TEXT
 );
 
 CREATE TABLE Books (
@@ -14,11 +15,11 @@ CREATE TABLE Books (
     OwnerID TEXT REFERENCES Users(ID)
 );
 
-INSERT INTO Users (ID, FullName, Email) values ('djsteinmetz', 'DJ Steinmetz', 'steinmetz.dj@gmail.com');
-INSERT INTO Users (ID, FullName, Email) values ('danabossen', 'Dana Bossen', 'dboss@gmail.com');
-INSERT INTO Users (ID, FullName, Email) values ('kaitwilco', 'Kaitlynn Wilcoxson', 'kwilco@gmail.com');
-INSERT INTO Users (ID, FullName, Email) values ('ewilco', 'Emily Wilcoxson', 'ewilco@gmail.com');
-INSERT INTO Users (ID, FullName, Email) values ('killerkia', 'Kia Arendt', 'killerki@gmail.com');
+INSERT INTO Users (ID, FullName, Email, Password) values ('djsteinmetz', 'DJ Steinmetz', 'steinmetz.dj@gmail.com', 'fails345');
+INSERT INTO Users (ID, FullName, Email, Password) values ('danabossen', 'Dana Bossen', 'dboss@gmail.com', 'fails345');
+INSERT INTO Users (ID, FullName, Email, Password) values ('kaitwilco', 'Kaitlynn Wilcoxson', 'kwilco@gmail.com', 'fails345');
+INSERT INTO Users (ID, FullName, Email, Password) values ('ewilco', 'Emily Wilcoxson', 'ewilco@gmail.com', 'fails345');
+INSERT INTO Users (ID, FullName, Email, Password) values ('killerkia', 'Kia Arendt', 'killerki@gmail.com', 'fails345');
 
 INSERT INTO Books (ID, Title, Genre, OwnerID) values ('mockingbird', 'To Kill a Mockingbird', 'Fiction', 'djsteinmetz');
 INSERT INTO Books (ID, Title, Genre, OwnerID) values ('crawdads', 'Where the Crawdads Sing', 'Fiction', 'danabossen');

@@ -1,10 +1,10 @@
 import { NextPageContext } from "next";
 
 export interface IUser {
-    interopID: string;
     ID: string;
     FullName: string;
     Email: string;
+    Password: string;
     BookCount: number;
 }
 

@@ -6,7 +6,6 @@ export default async function getUserByID(req: NextApiRequest, res: NextApiRespo
 
     if (req.method === 'PUT') {
         const statement = await db.prepare('UPDATE users SET FullName= ?, Email= ? WHERE ID= ?');
-        const statement = await db.prepare('UPDATE Users SET FullName= ?, Email= ? WHERE ID= ?');
         const result = await statement.run(req.body.FullName, req.body.Email, req.query.userID);
         result.finalize();
     }

@@ -40,7 +40,7 @@ export default function AllUsers({ booksList }: IBooksListProps) {
                     </TableHead>
                     <TableBody>
                         {books?.map((row: IBook) => (
-                            <TableRow key={row.interopID}>
+                            <TableRow key={row.ID}>
                                 <TableCell component="th" scope="row">
                                     {row.Title}
                                 </TableCell>
