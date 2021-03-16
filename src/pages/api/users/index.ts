@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { IUser } from "../../../models/user.interface";
 import sqlite from 'sqlite';
 
 export default async function getAllUsers(req: NextApiRequest, res: NextApiResponse): Promise<unknown> {
