@@ -1,3 +1,3 @@
-import { homepage } from '../containers/homepage';
+import { homepage } from '../components/homepage';
 
 export default homepage;

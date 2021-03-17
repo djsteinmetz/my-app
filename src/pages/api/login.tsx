@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import sqlite from 'sqlite'
 import { compare } from 'bcrypt';
 import { IUser } from "../../models/users.interface";
+var { sign } = require('jsonwebtoken');
 
 export default async function login(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     const db = await sqlite.open('./mydb.sqlite');
@@ -10,12 +11,14 @@ export default async function login(req: NextApiRequest, res: NextApiResponse): 
         compare(req.body.Password, user?.Password, function(err, result) {
             // result == true
             if (!err && result) {
-                res.status(200).json({ 'status': res.status, 'message': 'Authenticated' })
+                const claims = { usr: user.ID, roles: ['BooksReader'] };
+                const jwt = sign(claims, process.env.API_SECRET, { expiresIn: '1h' });
+                res.status(200).json({ 'access_token': jwt })
             } else {
                 res.status(401).json({ 'status': res.status, 'message': 'Unauthorized' })
             }
         });
     } else {
-        res.status(405).json({ message: 'Invalid request' })
+        res.redirect('/');
     }
 }

@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import HomeIcon from '@material-ui/icons/Home';
@@ -6,12 +5,14 @@ import BookIcon from '@material-ui/icons/Book';
 import UserIcon from '@material-ui/icons/Person';
 import React from 'react';
 import { useRouter } from 'next/router'
+import Header from './header';
 
 export function homepage() {
   const [value, setValue] = React.useState(0);
   const router = useRouter();
   return (
     <React.Fragment>
+      <Header />
       <h1 style={{textAlign: 'center'}}>Welcome to Bookster</h1>
       <BottomNavigation
         value={value}

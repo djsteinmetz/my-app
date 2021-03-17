@@ -4,7 +4,9 @@ CREATE TABLE Users (
     ID TEXT,
     FullName TEXT,
     Email TEXT,
-    Password TEXT
+    Password TEXT,
+    Active BOOLEAN,
+    Verified BOOLEAN
 );
 
 CREATE TABLE Books (
@@ -15,11 +17,11 @@ CREATE TABLE Books (
     OwnerID TEXT REFERENCES Users(ID)
 );
 
-INSERT INTO Users (ID, FullName, Email, Password) values ('djsteinmetz', 'DJ Steinmetz', 'steinmetz.dj@gmail.com', 'fails345');
-INSERT INTO Users (ID, FullName, Email, Password) values ('danabossen', 'Dana Bossen', 'dboss@gmail.com', 'fails345');
-INSERT INTO Users (ID, FullName, Email, Password) values ('kaitwilco', 'Kaitlynn Wilcoxson', 'kwilco@gmail.com', 'fails345');
-INSERT INTO Users (ID, FullName, Email, Password) values ('ewilco', 'Emily Wilcoxson', 'ewilco@gmail.com', 'fails345');
-INSERT INTO Users (ID, FullName, Email, Password) values ('killerkia', 'Kia Arendt', 'killerki@gmail.com', 'fails345');
+INSERT INTO Users (ID, FullName, Email, Password, Active, Verified) values ('djsteinmetz', 'DJ Steinmetz', 'steinmetz.dj@gmail.com', 'fails345', true, true);
+INSERT INTO Users (ID, FullName, Email, Password, Active, Verified) values ('danabossen', 'Dana Bossen', 'dboss@gmail.com', 'fails345', true, false);
+INSERT INTO Users (ID, FullName, Email, Password, Active, Verified) values ('kaitwilco', 'Kaitlynn Wilcoxson', 'kwilco@gmail.com', 'fails345', true, false);
+INSERT INTO Users (ID, FullName, Email, Password, Active, Verified) values ('ewilco', 'Emily Wilcoxson', 'ewilco@gmail.com', 'fails345', true, false);
+INSERT INTO Users (ID, FullName, Email, Password, Active, Verified) values ('killerkia', 'Kia Arendt', 'killerki@gmail.com', 'fails345', true, false);
 
 INSERT INTO Books (ID, Title, Genre, OwnerID) values ('mockingbird', 'To Kill a Mockingbird', 'Fiction', 'djsteinmetz');
 INSERT INTO Books (ID, Title, Genre, OwnerID) values ('crawdads', 'Where the Crawdads Sing', 'Fiction', 'danabossen');

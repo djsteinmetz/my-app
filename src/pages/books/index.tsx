@@ -18,7 +18,6 @@ export default function AllUsers({ booksList }: IBooksListProps) {
             const books: IBook[] = await response.json();
             setBooks(books)
         }
-        console.log({books})
         if (!books) {
             loadBooks();
         }
@@ -57,7 +56,7 @@ export default function AllUsers({ booksList }: IBooksListProps) {
 
 AllUsers.getInitialProps = async ({ query, req }: NextPageContext) => {
     if (!req) {
-        return { booksList: null };
+        return { booksList: [] };
     }
 
     const response = await fetch(`http://localhost:3000/api/books`);

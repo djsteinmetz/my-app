@@ -2,6 +2,8 @@ import { NextPageContext } from "next";
 
 export interface IUser {
     ID: string;
+    Active: boolean;
+    Verified: boolean;
     FullName: string;
     Email: string;
     Password: string;

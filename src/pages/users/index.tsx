@@ -37,7 +37,7 @@ export default function AllUsers({ usersList }: IUserListProps) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {users?.map((row: IUser) => (
+                        { users?.map((row: IUser) => (
                             <TableRow key={row.ID}>
                                 <TableCell component="th" scope="row">
                                     {row.FullName}
@@ -54,7 +54,7 @@ export default function AllUsers({ usersList }: IUserListProps) {
 
 AllUsers.getInitialProps = async ({ query, req }: NextPageContext) => {
     if (!req) {
-        return { users: [] };
+        return { usersList: [] };
     }
 
     const response = await fetch(`http://localhost:3000/api/users`);
