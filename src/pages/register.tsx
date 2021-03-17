@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -11,6 +11,8 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Header from "../components/header";
+import { useRouter } from "next/router";
+import fetch from 'isomorphic-unfetch';
 
 function Copyright() {
   return (
@@ -45,7 +47,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 export default function register() {
+  const fullnameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
+
+  const handleRegister = async () => {
+    console.log(usernameRef.current?.value, passwordRef.current?.value);
+    const req = await fetch(`http://localhost:3000/api/register`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        ID: usernameRef.current?.value,
+        FullName: fullnameRef.current?.value,
+        Email: emailRef.current?.value,
+        Password: passwordRef.current?.value,
+        Active: true
+      })
+    });
+    const res = await req.json();
+    console.log(res)
+    if (res) {
+      router.push('/login')
+    }
+  }
   const classes = useStyles();
 
   return (
@@ -64,14 +92,15 @@ export default function register() {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  autoComplete="fname"
-                  name="firstName"
+                  autoComplete="name"
+                  name="fullname"
                   variant="outlined"
                   required
                   fullWidth
-                  id="firstName"
-                  label="First Name"
+                  id="fullname"
+                  label="Full Name"
                   autoFocus
+                  inputRef={fullnameRef}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -79,10 +108,11 @@ export default function register() {
                   variant="outlined"
                   required
                   fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="lname"
+                  id="username"
+                  label="Username"
+                  name="username"
+                  autoComplete="username"
+                  inputRef={usernameRef}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -94,6 +124,7 @@ export default function register() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  inputRef={emailRef}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -106,6 +137,7 @@ export default function register() {
                   type="password"
                   id="password"
                   autoComplete="current-password"
+                  inputRef={passwordRef}
                 />
               </Grid>
               {/* <Grid item xs={12}>
@@ -116,11 +148,12 @@ export default function register() {
             </Grid> */}
             </Grid>
             <Button
-              type="submit"
+              type="button"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={handleRegister}
             >
               Sign Up
             </Button>

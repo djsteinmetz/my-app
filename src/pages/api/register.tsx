@@ -16,6 +16,6 @@ export default async function signup(req: NextApiRequest, res: NextApiResponse):
             res.status(201).json(user);
         });
     } else {
-        res.redirect('/');
+        res.redirect('/register');
     }
 }

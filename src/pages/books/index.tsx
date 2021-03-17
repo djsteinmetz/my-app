@@ -10,16 +10,28 @@ import { IBook, IBooksListProps } from '../../models/books.interface';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Header from '../../components/header';
+import fetch from 'isomorphic-unfetch';
+import { useRouter } from 'next/router';
+import { getHelper } from '../../helpers/fetch.helpers';
 
 export default function AllUsers({ booksList }: IBooksListProps) {
     const [books, setBooks] = useState(booksList);
+    const router = useRouter();
+
     useEffect(() => {
         async function loadBooks() {
-            const response = await fetch(`http://localhost:3000/api/books`);
+            const response = await fetch(`http://localhost:3000/api/books`, {
+                method: 'GET',
+                headers: {'Content-Type': 'application/json'},
+            });
+            console.log(response)
+            if (response.status !== 200) {
+                router.push('/login');
+            }
             const books: IBook[] = await response.json();
             setBooks(books)
         }
-        if (!books) {
+        if (!books?.length) {
             loadBooks();
         }
     }, [])
@@ -53,12 +65,7 @@ export default function AllUsers({ booksList }: IBooksListProps) {
     )
 }
 
-AllUsers.getInitialProps = async ({ query, req }: NextPageContext) => {
-    if (!req) {
-        return { booksList: [] };
-    }
-
-    const response = await fetch(`http://localhost:3000/api/books`);
-    const booksList: IBook[] = await response.json();
-    return { booksList: booksList }
+AllUsers.getInitialProps = async (ctx: NextPageContext) => {
+    const json: IBook[] = await getHelper(`http://localhost:3000/api/books`, ctx);
+    return { booksList: json }
 }

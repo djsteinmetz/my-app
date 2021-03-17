@@ -5,31 +5,14 @@ const { verify } = require('jsonwebtoken');
 require('dotenv').config();
 
 export const isAuthenticated = (fn: NextApiHandler) => async (req: NextApiRequest, res: NextApiResponse) => {
-    verify(req.headers.authorization!, process.env.API_SECRET, async function(err: Error, decoded: unknown) {
+    verify(req.cookies['bookster.access_token'], process.env.API_SECRET, async function(err: Error, decoded: unknown) {
         if (!err && decoded) {
-            console.log(decoded)
             return await fn(req, res);
         }
 
-        res.status(401).json({ 'message': 'Unauthorized' })
-      });
-}
-
-export const isAdminUser = (fn: NextApiHandler) => async (req: NextApiRequest, res: NextApiResponse) => {
-    verify(req.headers.authorization!, process.env.API_SECRET, async function(err: Error, decoded: any) {
-        const isAdminUser = decoded?.roles?.includes('Admin');
-        if (!err && decoded && isAdminUser) {
-            console.log(decoded);
-            return await fn(req, res);
-        }
-
-        res.status(401).json(generateRolesError(req.headers.authorization));
+        res.writeHead(401, { Location: 'http://localhost:3000/login'});
+        res.end();
     });
-}
-
-export const isAdmin = (token: any): boolean => {
-    const decoded = verify(token, process.env.API_SECRET);
-    return decoded?.roles?.includes('Admin');
 }
 
 export const generateRolesError = (token?: string): AuthError => {

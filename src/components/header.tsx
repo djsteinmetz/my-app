@@ -100,10 +100,19 @@ export default function Header() {
         <Link href="/login" as="/login">
           <Button
             color="primary"
-            variant="outlined"
+            variant="contained"
             className={classes.link}
           >
             Login
+          </Button>
+        </Link>
+        <Link href="/register" as="/register">
+          <Button
+            color="primary"
+            variant="outlined"
+            className={classes.link}
+          >
+            Register
           </Button>
         </Link>
       </Toolbar>

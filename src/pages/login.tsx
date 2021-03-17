@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -13,6 +13,8 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Header from '../components/header';
+import { useRouter } from "next/router";
+import fetch from 'isomorphic-unfetch';
 
 function Copyright() {
   return (
@@ -48,7 +50,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function login() {
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
+  const handleLogin = async () => {
+    console.log(usernameRef.current?.value, passwordRef.current?.value);
+    const req = await fetch(`http://localhost:3000/api/oauth/token`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        ID: usernameRef.current?.value,
+        Password: passwordRef.current?.value
+      })
+    });
+    const res = await req.json();
+    if (res) {
+      router.push('/')
+    }
+  }
   const classes = useStyles();
+
   return (
     <div>
       <Header />
@@ -67,11 +88,12 @@ export default function login() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
               autoFocus
+              inputRef={usernameRef}
             />
             <TextField
               variant="outlined"
@@ -83,17 +105,19 @@ export default function login() {
               type="password"
               id="password"
               autoComplete="current-password"
+              inputRef={passwordRef}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
             <Button
-              type="submit"
+              type="button"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={handleLogin}
             >
               Sign In
             </Button>

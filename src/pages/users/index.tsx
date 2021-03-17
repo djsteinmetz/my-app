@@ -8,18 +8,27 @@ import Paper from '@material-ui/core/Paper';
 import { NextPageContext } from 'next';
 import { IUser, IUserListProps } from '../../models/users.interface';
 import { useEffect, useState } from 'react';
-import Link from 'next/link'
 import Header from '../../components/header';
+import { useRouter } from 'next/router';
+import { getHelper } from '../../helpers/fetch.helpers';
 
 export default function AllUsers({ usersList }: IUserListProps) {
     const [users, setUsers] = useState(usersList);
+    const router = useRouter();
+
     useEffect(() => {
         async function loadUsers() {
-            const response = await fetch(`http://localhost:3000/api/users`);
+            const response = await fetch(`http://localhost:3000/api/users`, {
+                method: 'GET',
+                headers: {'Content-Type': 'application/json'}
+            });
+            if (response.status !== 200) {
+                router.push('/login');
+            }
             const users: IUser[] = await response.json();
             setUsers(users)
         }
-        if (!users) {
+        if (!users?.length) {
             loadUsers();
         }
     }, [])
@@ -51,12 +60,7 @@ export default function AllUsers({ usersList }: IUserListProps) {
     )
 }
 
-AllUsers.getInitialProps = async ({ query, req }: NextPageContext) => {
-    if (!req) {
-        return { usersList: [] };
-    }
-
-    const response = await fetch(`http://localhost:3000/api/users`);
-    const users: IUser[] = await response.json();
-    return { usersList: users }
+AllUsers.getInitialProps = async (ctx: NextPageContext) => {
+    const json: IUser[] = await getHelper(`http://localhost:3000/api/users`, ctx);
+    return { usersList: json }
 }
