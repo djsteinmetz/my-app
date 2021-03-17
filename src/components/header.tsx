@@ -3,7 +3,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import Link from "@material-ui/core/Link";
+import Link from "next/link";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
   },
   toolbarTitle: {
+    cursor: 'pointer',
     flexGrow: 1,
   },
   link: {
@@ -63,48 +64,48 @@ export default function Header() {
       className={classes.appBar}
     >
       <Toolbar className={classes.toolbar}>
-        <Typography
-          variant="h6"
-          color="inherit"
-          noWrap
-          className={classes.toolbarTitle}
-        >
-          Bookster
-        </Typography>
+        <Link href="/" as="/">
+          <Typography
+            variant="h6"
+            color="inherit"
+            noWrap
+            className={classes.toolbarTitle}
+          >
+            Bookster
+          </Typography>
+        </Link>
         <nav>
-          <Link
-            variant="button"
-            color="textPrimary"
-            href="#"
-            className={classes.link}
-          >
-            Nav 1
+          <Link href="/books" as="/books">
+            <Button
+              className={classes.link}
+            >
+              Browse Books
+            </Button>
           </Link>
-          <Link
-            variant="button"
-            color="textPrimary"
-            href="#"
-            className={classes.link}
-          >
-            Nav 2
+          <Link href="/users" as="/users">
+            <Button
+              className={classes.link}
+            >
+              Users
+            </Button>
           </Link>
-          <Link
-            variant="button"
-            color="textPrimary"
-            href="#"
-            className={classes.link}
-          >
-            Nav 3
-          </Link>
+          {/* <Link href="/books" as="/books">
+            <Button
+              className={classes.link}
+            >
+              Browse Books
+            </Button>
+          </Link> */}
         </nav>
-        <Button
-          href="#"
-          color="primary"
-          variant="outlined"
-          className={classes.link}
-        >
-          Login
-        </Button>
+        <Link href="/login" as="/login">
+          <Button
+            color="primary"
+            variant="outlined"
+            className={classes.link}
+          >
+            Login
+          </Button>
+        </Link>
       </Toolbar>
     </AppBar>
   );

@@ -9,6 +9,7 @@ import { NextPageContext } from 'next';
 import { IBook, IBooksListProps } from '../../models/books.interface';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Header from '../../components/header';
 
 export default function AllUsers({ booksList }: IBooksListProps) {
     const [books, setBooks] = useState(booksList);
@@ -25,9 +26,7 @@ export default function AllUsers({ booksList }: IBooksListProps) {
 
     return (
         <div>
-            <Link as="/" href="/">
-                <a>Home</a>
-            </Link>
+            <Header />
             <TableContainer component={Paper}>
                 <Table aria-label="simple table">
                     <TableHead>

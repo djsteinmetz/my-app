@@ -9,6 +9,7 @@ import { NextPageContext } from 'next';
 import { IUser, IUserListProps } from '../../models/users.interface';
 import { useEffect, useState } from 'react';
 import Link from 'next/link'
+import Header from '../../components/header';
 
 export default function AllUsers({ usersList }: IUserListProps) {
     const [users, setUsers] = useState(usersList);
@@ -25,9 +26,7 @@ export default function AllUsers({ usersList }: IUserListProps) {
 
     return (
         <div>
-            <Link as="/" href="/">
-                <a>Home</a>
-            </Link>
+            <Header />
             <TableContainer component={Paper}>
                 <Table aria-label="simple table">
                     <TableHead>
