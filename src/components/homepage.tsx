@@ -3,21 +3,28 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import HomeIcon from '@material-ui/icons/Home';
 import BookIcon from '@material-ui/icons/Book';
 import UserIcon from '@material-ui/icons/Person';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router'
-import Header from './header';
+import { isLoggedIn } from '../helpers/auth.helpers';
+import cookie from 'cookie';
 
 export function homepage() {
-  const [value, setValue] = React.useState(0);
   const router = useRouter();
+  const [value, setValue] = React.useState(0);
+
+  useEffect(() => {
+    const cookies = cookie.parse(document.cookie);
+    const token = cookies['bookster.access_token'];
+    const authorized = isLoggedIn(token);
+    if (!authorized) router.push('/login');
+  }, []);
+
   return (
     <React.Fragment>
-      <Header />
       <h1 style={{textAlign: 'center'}}>Welcome to Bookster</h1>
       <BottomNavigation
         value={value}
         onChange={(event, newValue) => {
-          console.log(newValue)
           setValue(newValue);
           if (newValue === 1) {
             router.push('/books', '/books');

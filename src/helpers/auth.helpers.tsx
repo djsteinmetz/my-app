@@ -3,6 +3,7 @@ import { IDecodedToken } from "../models/decoded-token.interface";
 import { AuthError } from "../models/errors.interface";
 const { verify } = require('jsonwebtoken');
 require('dotenv').config();
+import cookie from 'cookie';
 
 export const isAuthenticated = (fn: NextApiHandler) => async (req: NextApiRequest, res: NextApiResponse) => {
     verify(req.cookies['bookster.access_token'], process.env.API_SECRET, async function(err: Error, decoded: unknown) {
@@ -31,4 +32,17 @@ export const generateRolesError = (token?: string): AuthError => {
             }
         ]
     }
+}
+
+export const logout = () => {
+}
+
+export const isLoggedIn = (token: string): boolean => {
+    let isAuthenticated = false;
+    verify(token, process.env.API_SECRET, async function(err: Error, decoded: unknown) {
+        if (!err && decoded) {
+            isAuthenticated = true;
+        }
+    });
+    return isAuthenticated;
 }

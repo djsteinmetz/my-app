@@ -5,6 +5,9 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Link from "next/link";
 import { makeStyles } from "@material-ui/core/styles";
+import { logout } from "../helpers/auth.helpers";
+import Cookies from "js-cookie";
+import Router from 'next/router';
 
 const useStyles = makeStyles((theme) => ({
   "@global": {
@@ -21,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
   },
   toolbarTitle: {
-    cursor: 'pointer',
+    cursor: "pointer",
     flexGrow: 1,
   },
   link: {
@@ -54,6 +57,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const handleLogout = () => {
+  Cookies.remove("bookster.access_token", {
+    path: "/",
+  });
+  Router.push('/login');
+};
+
 export default function Header() {
   const classes = useStyles();
   return (
@@ -76,18 +86,10 @@ export default function Header() {
         </Link>
         <nav>
           <Link href="/books" as="/books">
-            <Button
-              className={classes.link}
-            >
-              Browse Books
-            </Button>
+            <Button className={classes.link}>Browse Books</Button>
           </Link>
           <Link href="/users" as="/users">
-            <Button
-              className={classes.link}
-            >
-              Users
-            </Button>
+            <Button className={classes.link}>Users</Button>
           </Link>
           {/* <Link href="/books" as="/books">
             <Button
@@ -98,23 +100,23 @@ export default function Header() {
           </Link> */}
         </nav>
         <Link href="/login" as="/login">
-          <Button
-            color="primary"
-            variant="contained"
-            className={classes.link}
-          >
+          <Button color="primary" variant="contained" className={classes.link}>
             Login
           </Button>
         </Link>
         <Link href="/register" as="/register">
-          <Button
-            color="primary"
-            variant="outlined"
-            className={classes.link}
-          >
+          <Button color="primary" variant="outlined" className={classes.link}>
             Register
           </Button>
         </Link>
+        <Button
+          color="primary"
+          variant="text"
+          className={classes.link}
+          onClick={handleLogout}
+        >
+          Logout
+        </Button>
       </Toolbar>
     </AppBar>
   );
