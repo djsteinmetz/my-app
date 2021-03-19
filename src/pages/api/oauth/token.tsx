@@ -4,7 +4,6 @@ import sqlite from 'sqlite';
 import { IUser } from "../../../models/users.interface";
 var { sign, verify } = require('jsonwebtoken');
 import cookie from 'cookie';
-require('dotenv').config();
 
 export default async function getAccessToken(req: NextApiRequest, res: NextApiResponse): Promise<void> {
     const db = await sqlite.open('./mydb.sqlite');
