@@ -2,7 +2,6 @@ import { NextApiHandler, NextApiRequest, NextApiResponse } from "next"
 import { IDecodedToken } from "../models/decoded-token.interface";
 import { AuthError } from "../models/errors.interface";
 const { verify } = require('jsonwebtoken');
-require('dotenv').config();
 import cookie from 'cookie';
 
 export const isAuthenticated = (fn: NextApiHandler) => async (req: NextApiRequest, res: NextApiResponse) => {
