@@ -1,9 +1,0 @@
-{
-    "users": [
-        {"ID": "dj123", "FullName": "DJ Steinmetz", "BookCount": 12},
-        {"ID": "kate485", "FullName": "Kaitlynn Wilcoxson", "BookCount": 142},
-        {"ID": "emmy0714", "FullName": "Emily Wilcoxson", "BookCount": 144},
-        {"ID": "killerkia", "FullName": "Kia Arendt", "BookCount": 88},
-        {"ID": "dboss", "FullName": "Dana Bossen", "BookCount": 67}
-    ]
-}

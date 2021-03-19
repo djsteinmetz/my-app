@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { IUser, IUserDetailsProps, UserDetailsPageContext } from '../../../models/user.interface';
+import { IUser, IUserDetailsProps, IUserDetailsPageContext } from '../../../models/users.interface';
 
 export default function UserDetails({userDetails}: IUserDetailsProps): JSX.Element {
     const router = useRouter();
@@ -18,7 +18,7 @@ export default function UserDetails({userDetails}: IUserDetailsProps): JSX.Eleme
     return <h2>{user?.ID ? `${user?.FullName} has ${user?.BookCount} books` : `Loading ...`}</h2>
 }
 
-UserDetails.getInitialProps = async ({query, req}: UserDetailsPageContext) => {
+UserDetails.getInitialProps = async ({query, req}: IUserDetailsPageContext) => {
     if (!req) {
         return { user: {} };
     }
