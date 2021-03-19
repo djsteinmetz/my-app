@@ -3,6 +3,7 @@ import { IDecodedToken } from "../models/decoded-token.interface";
 import { AuthError } from "../models/errors.interface";
 const { verify } = require('jsonwebtoken');
 import cookie from 'cookie';
+import { prodEnv, testEnv } from "../../environments/environments.config";
 
 export const isAuthenticated = (fn: NextApiHandler) => async (req: NextApiRequest, res: NextApiResponse) => {
     let token = req?.cookies?.['bookster.access_token'];
@@ -15,7 +16,7 @@ export const isAuthenticated = (fn: NextApiHandler) => async (req: NextApiReques
                 return await fn(req, res);
             }
     
-            res.writeHead(401, { Location: 'http://localhost:3000/login'});
+            res.writeHead(401, { Location: `${process.env.NODE_ENV === 'development' ? testEnv.baseUrl : prodEnv.baseUrl}/login`});
             res.end();
         });
       } catch(err) {

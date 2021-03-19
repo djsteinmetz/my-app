@@ -3,7 +3,6 @@ import Router from "next/router";
 
 export async function getHelper(url: string, ctx: NextPageContext) {
     const cookie = ctx?.req?.headers?.cookie;
-
     const response = await fetch(url, {
         headers: {
             cookie: cookie!
@@ -17,7 +16,7 @@ export async function getHelper(url: string, ctx: NextPageContext) {
 
     if (response.status === 401 && ctx?.req) {
         ctx?.res?.writeHead(302, {
-            Location: 'http://localhost:3000/login'
+            Location: `${document.URL}login`
         });
         ctx?.res?.end();
         return;

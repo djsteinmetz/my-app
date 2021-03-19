@@ -17,6 +17,7 @@ import fetch from "isomorphic-unfetch";
 import Cookies from "js-cookie";
 import { IconButton, Snackbar } from "@material-ui/core";
 import CloseIcon from '@material-ui/icons/Close'
+import { prodEnv, testEnv } from "../../environments/environments.config";
 
 function Copyright() {
   return (
@@ -77,7 +78,7 @@ export default function login() {
   };
 
   const handleLogin = async () => {
-    const req = await fetch(`http://localhost:3000/api/oauth/token`, {
+    const req = await fetch(`${process.env.NODE_ENV === 'development' ? testEnv.baseUrl : prodEnv.baseUrl}/api/oauth/token`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

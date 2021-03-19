@@ -10,6 +10,7 @@ import { IUser, IUserListProps } from "../../models/users.interface";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { getHelper } from "../../helpers/fetch.helpers";
+import { prodEnv, testEnv } from "../../../environments/environments.config";
 
 export default function AllUsers({ usersList }: IUserListProps) {
   const [users, setUsers] = useState(usersList);
@@ -17,7 +18,7 @@ export default function AllUsers({ usersList }: IUserListProps) {
 
   useEffect(() => {
     async function loadUsers() {
-      const response = await fetch(`http://localhost:3000/api/users`, {
+      const response = await fetch(`${process.env.NODE_ENV === 'development' ? testEnv.baseUrl : prodEnv.baseUrl}/api/users`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
@@ -57,6 +58,6 @@ export default function AllUsers({ usersList }: IUserListProps) {
 }
 
 AllUsers.getInitialProps = async (ctx: NextPageContext) => {
-  const json: IUser[] = await getHelper(`http://localhost:3000/api/users`, ctx);
+  const json: IUser[] = await getHelper(`${process.env.NODE_ENV === 'development' ? testEnv.baseUrl : prodEnv.baseUrl}/api/users`, ctx);
   return { usersList: json };
 };
