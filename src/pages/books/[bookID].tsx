@@ -6,6 +6,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { IBook, IBooksDetailsPageContext, IBookDetailsProps } from '../../models/books.interface';
+import { prodEnv, testEnv } from '../../../environments/environments.config';
 
 export default function AllUsers({ book }: IBookDetailsProps) {
     return (
@@ -20,7 +21,7 @@ AllUsers.getInitialProps = async ({ query, req }: IBooksDetailsPageContext) => {
         return { book: {} };
     }
 
-    const response = await fetch(`http://localhost:3000/api/books/${query.bookID}`);
+    const response = await fetch(`${process.env.NODE_ENV === 'development' ? testEnv.baseUrl : prodEnv.baseUrl}/api/books/${query.bookID}`);
     const book: IBook = await response.json();
     return { book: book }
 }

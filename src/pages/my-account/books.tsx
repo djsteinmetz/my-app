@@ -19,6 +19,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import React from "react";
+import { prodEnv, testEnv } from "../../../environments/environments.config";
 
 export default function MyBooks({ booksList }: IBooksListProps) {
   const [books, setBooks] = useState(booksList);
@@ -34,7 +35,7 @@ export default function MyBooks({ booksList }: IBooksListProps) {
 
   useEffect(() => {
     async function loadBooks() {
-      const response = await fetch(`http://localhost:3000/api/me/books`, {
+      const response = await fetch(`${process.env.NODE_ENV === 'development' ? testEnv.baseUrl : prodEnv.baseUrl}/api/me/books`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
@@ -50,7 +51,7 @@ export default function MyBooks({ booksList }: IBooksListProps) {
   }, [booksList]);
 
   const handleSubmit = async () => {
-    const req = await fetch(`http://localhost:3000/api/books`, {
+    const req = await fetch(`${process.env.NODE_ENV === 'development' ? testEnv.baseUrl : prodEnv.baseUrl}/api/books`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -173,7 +174,7 @@ export default function MyBooks({ booksList }: IBooksListProps) {
 
 MyBooks.getInitialProps = async (ctx: NextPageContext) => {
   const json: IBook[] = await getHelper(
-    `http://localhost:3000/api/me/books`,
+    `${process.env.NODE_ENV === 'development' ? testEnv.baseUrl : prodEnv.baseUrl}/api/me/books`,
     ctx
   );
   return { booksList: json };
