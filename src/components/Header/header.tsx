@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AppBar from "@material-ui/core/AppBar";
-import Button from "@material-ui/core/Button";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Link from "next/link";
 import { makeStyles } from "@material-ui/core/styles";
-import { logout } from "../helpers/auth.helpers";
 import Cookies from "js-cookie";
+import cookie from 'cookie';
 import Router from 'next/router';
+import { isLoggedIn } from '../../helpers/auth.helpers';
+import AuthMenuItems from "./auth-menu-items";
 
 const useStyles = makeStyles((theme) => ({
   "@global": {
@@ -66,6 +67,15 @@ const handleLogout = () => {
 
 export default function Header() {
   const classes = useStyles();
+  const [loggedIn, setLoggedIn] = React.useState(false);
+
+  useEffect(() => {
+    const cookies = cookie.parse(document.cookie);
+    const token = cookies['bookster.access_token'];
+    const authorized = isLoggedIn(token);
+    setLoggedIn(authorized);
+  });
+
   return (
     <AppBar
       position="static"
@@ -84,39 +94,7 @@ export default function Header() {
             Bookster
           </Typography>
         </Link>
-        <nav>
-          <Link href="/books" as="/books">
-            <Button className={classes.link}>Browse Books</Button>
-          </Link>
-          <Link href="/users" as="/users">
-            <Button className={classes.link}>Users</Button>
-          </Link>
-          {/* <Link href="/books" as="/books">
-            <Button
-              className={classes.link}
-            >
-              Browse Books
-            </Button>
-          </Link> */}
-        </nav>
-        <Link href="/login" as="/login">
-          <Button color="primary" variant="contained" className={classes.link}>
-            Login
-          </Button>
-        </Link>
-        <Link href="/register" as="/register">
-          <Button color="primary" variant="outlined" className={classes.link}>
-            Register
-          </Button>
-        </Link>
-        <Button
-          color="primary"
-          variant="text"
-          className={classes.link}
-          onClick={handleLogout}
-        >
-          Logout
-        </Button>
+        <AuthMenuItems isLoggedIn={loggedIn} classes={classes} handleLogout={handleLogout}/>
       </Toolbar>
     </AppBar>
   );

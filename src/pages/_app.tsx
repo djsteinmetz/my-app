@@ -7,7 +7,7 @@ import theme from '../theme';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 import Router from 'next/router';
-import Header from '../components/header';
+import Header from '../components/Header/header';
 import { CookiesProvider } from 'react-cookie';
 
 NProgress.configure({ showSpinner: false, trickleSpeed: 300 });

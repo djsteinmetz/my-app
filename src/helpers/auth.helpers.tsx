@@ -6,14 +6,23 @@ require('dotenv').config();
 import cookie from 'cookie';
 
 export const isAuthenticated = (fn: NextApiHandler) => async (req: NextApiRequest, res: NextApiResponse) => {
-    verify(req.cookies['bookster.access_token'], process.env.API_SECRET, async function(err: Error, decoded: unknown) {
-        if (!err && decoded) {
-            return await fn(req, res);
-        }
-
-        res.writeHead(401, { Location: 'http://localhost:3000/login'});
+    let token = req?.cookies?.['bookster.access_token'];
+    if (req?.headers?.authorization) {
+        token = req?.headers?.authorization?.split(' ')?.[1];
+    }
+    try {
+        verify(token, process.env.API_SECRET, async function(err: Error, decoded: unknown) {
+            if (!err && decoded) {
+                return await fn(req, res);
+            }
+    
+            res.writeHead(401, { Location: 'http://localhost:3000/login'});
+            res.end();
+        });
+      } catch(err) {
+        res.writeHead(500);
         res.end();
-    });
+      }
 }
 
 export const generateRolesError = (token?: string): AuthError => {

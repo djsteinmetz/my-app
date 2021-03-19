@@ -12,7 +12,7 @@ export default async function signup(req: NextApiRequest, res: NextApiResponse):
             // All users will start as Verified = false
             const result = await statement.run(req.body.ID, req.body.FullName, req.body.Email, hash, req.body.Active, false);
             result.finalize();
-            const user = await db.get(`SELECT ID, Active, Email, FullName, Verified FROM Users WHERE ID = ?`, [req.body.ID])
+            const user = await db.get(`SELECT ID, Active, Email, FullName, Verified FROM Users WHERE Email = ?`, [req.body.Email])
             res.status(201).json(user);
         });
     } else {

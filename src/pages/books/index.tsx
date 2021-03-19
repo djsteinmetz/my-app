@@ -40,7 +40,9 @@ export default function AllUsers({ booksList }: IBooksListProps) {
         <TableHead>
           <TableRow>
             <TableCell>Title</TableCell>
+            <TableCell>Author</TableCell>
             <TableCell align="left">Genre</TableCell>
+            <TableCell align="left">Description</TableCell>
             <TableCell align="left">Owner</TableCell>
           </TableRow>
         </TableHead>
@@ -50,7 +52,9 @@ export default function AllUsers({ booksList }: IBooksListProps) {
               <TableCell component="th" scope="row">
                 {row.Title}
               </TableCell>
+              <TableCell align="left">{row.Author}</TableCell>
               <TableCell align="left">{row.Genre}</TableCell>
+              <TableCell align="left">{row.Description}</TableCell>
               <TableCell align="left">
                 <Link as={`/users/${row.OwnerID}`} href="/users/[userID]">
                   <a>{row.FullName}</a>

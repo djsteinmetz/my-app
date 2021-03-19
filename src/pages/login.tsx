@@ -12,7 +12,6 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import Header from "../components/header";
 import { useRouter } from "next/router";
 import fetch from "isomorphic-unfetch";
 import Cookies from "js-cookie";
@@ -59,7 +58,7 @@ const setAuthCookie = async (token: string) => {
 }
 
 export default function login() {
-  const usernameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
@@ -82,7 +81,7 @@ export default function login() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        ID: usernameRef.current?.value,
+        Email: emailRef.current?.value,
         Password: passwordRef.current?.value,
       }),
     });
@@ -113,12 +112,12 @@ export default function login() {
             margin="normal"
             required
             fullWidth
-            id="username"
-            label="Username"
-            name="username"
-            autoComplete="username"
+            id="email"
+            label="Email"
+            name="email"
+            autoComplete="email"
             autoFocus
-            inputRef={usernameRef}
+            inputRef={emailRef}
           />
           <TextField
             variant="outlined"
@@ -131,10 +130,6 @@ export default function login() {
             id="password"
             autoComplete="current-password"
             inputRef={passwordRef}
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
           />
           <Button
             type="button"
